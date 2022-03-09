@@ -110,8 +110,8 @@
   (declare (ignore n))
   (read-string stream c))
 
-(defparameter *backup-dispatch-string-reader* nil)
-(defparameter *backup-string-reader* (get-macro-character #\"))
+(defparameter *backup-dispatch-string-reader* (get-dispatch-macro-character #\# #\" nil))
+(defparameter *backup-string-reader* (get-macro-character #\" nil))
 
 (defun restore-string-literals (&optional (dispatch t))
   (if dispatch
