@@ -110,7 +110,21 @@
   (declare (ignore n))
   (read-string stream c))
 
+(defparameter *backup-dispatch-string-reader* nil)
+(defparameter *backup-string-reader* (get-macro-character #\"))
+
+(defun restore-string-literals (&optional (type :dispatch))
+  (case type
+    (:dispatch
+     (set-dispatch-macro-character #\# #\" *backup-dispatch-string-reader*))
+    (:replace
+     (set-macro-character #\" *backup-string-reader*))))
+
 (defun enable-c-string-literals (&optional (type :dispatch))
   (case type
-    (:dispatch (set-dispatch-macro-character #\# #\" #'read-string-dispatch))
-    (:replace (set-macro-character #\" #'read-string))))
+    (:dispatch
+     (setf *backup-dispatch-string-reader* (get-dispatch-macro-character #\# #\"))
+     (set-dispatch-macro-character #\# #\" #'read-string-dispatch))
+    (:replace
+     (setf *backup-string-reader* (get-macro-character #\"))
+     (set-macro-character #\" #'read-string))))
