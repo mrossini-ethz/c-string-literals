@@ -6,6 +6,15 @@
        (cond
          ,@(loop for c in cases collect `((char-equal ,(first c) ,ch) ,@(rest c)))))))
 
+(defun ascii-implementation-p ()
+  (and (= (char-code #\A) 65)
+       (= (char-code #\a) 97)
+       (= (char-code #\0) 48)
+       (= (char-code #\Newline) 10)
+       (= (char-code #\Space) 32)
+       (= (char-code #\.) 46)
+       (= (char-code #\~) 126)))
+
 (defun oct-to-int (c1 c2 c3)
   (+ (ash (digit-char-p c1 8) 6) (ash (digit-char-p c2 8) 3) (digit-char-p c3)))
 
