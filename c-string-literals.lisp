@@ -76,6 +76,8 @@
       (set-macro-character #\" *backup-string-reader*)))
 
 (defun enable-c-string-literals (&optional (dispatch t))
+  (unless (ascii-implementation-p)
+    (error "This lisp implementation does not support ASCII encoding!"))
   (if dispatch
     (progn
      (setf *backup-dispatch-string-reader* (get-dispatch-macro-character #\# #\"))
